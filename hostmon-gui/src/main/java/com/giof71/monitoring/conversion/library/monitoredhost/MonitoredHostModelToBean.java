@@ -7,9 +7,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.giof71.monitoring.bean.MonitoredHostView;
 import com.giof71.monitoring.conversion.library.abs.AbsConverterHelper;
 import com.giof71.monitoring.model.MonitoredHost;
-import com.giof71.monitoring.route.bean.MonitoredHostView;
 
 @Component
 public class MonitoredHostModelToBean extends AbsConverterHelper<MonitoredHost, MonitoredHostView> {

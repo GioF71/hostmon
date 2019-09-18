@@ -2,6 +2,7 @@ package com.giof71.monitoring.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -44,5 +45,16 @@ public class HostServiceImpl implements HostService {
 	@Override
 	public void remove(Long id) {
 		hostRepository.deleteById(id);
+	}
+
+	@Override
+	public Optional<MonitoredHost> getHost(Long hostId) {
+		return hostRepository.findById(hostId);
+	}
+
+	@Transactional
+	@Override
+	public void save(MonitoredHost monitoredHost) {
+		hostRepository.save(monitoredHost);
 	}
 }

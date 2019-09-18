@@ -1,4 +1,4 @@
-package com.giof71.monitoring.route.impl.start;
+package com.giof71.monitoring.route.start;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,15 +12,15 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.giof71.monitoring.bean.MonitoredHostView;
 import com.giof71.monitoring.conversion.ConverterLibrary;
 import com.giof71.monitoring.conversion.TypedConverter;
 import com.giof71.monitoring.model.MonitoredHost;
-import com.giof71.monitoring.route.StartPage;
-import com.giof71.monitoring.route.bean.MonitoredHostView;
-import com.giof71.monitoring.route.impl.EditMonitoredHostImpl;
+import com.giof71.monitoring.route.edit.EditMonitoredHost;
 import com.giof71.monitoring.service.HostService;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
@@ -37,14 +37,9 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @Route(value = "start")
 @Component
 @UIScope
-public class StartPageImpl extends VerticalLayout implements StartPage {
+public class StartPage extends VerticalLayout {
 
 	private static final long serialVersionUID = 9092663229633895398L;
-	
-//	@Autowired
-//	private EditMonitoredHost editMonitoredHost;
-	
-//	private RouterLink editMonitoredHostLink;
 	
 	@Autowired
 	private HostService hostService;
@@ -93,6 +88,7 @@ public class StartPageImpl extends VerticalLayout implements StartPage {
 		});
 		
 		grid.addComponentColumn(createdEditLinkProvider());
+		grid.addComponentColumn(createdButtonProvider());
 		
 		grid.setSizeFull();
 		
@@ -109,12 +105,35 @@ public class StartPageImpl extends VerticalLayout implements StartPage {
 
 			@Override
 			public RouterLink apply(MonitoredHostView source) {
-				RouterLink link = new RouterLink("Edit", EditMonitoredHostImpl.class, source.getId());
+				RouterLink link = new RouterLink("Edit", EditMonitoredHost.class, source.getId());
 				return link;
 			}
 		};
 	}
 	
+	private ValueProvider<MonitoredHostView, Button> createdButtonProvider() {
+		return new ValueProvider<MonitoredHostView, Button>() {
+			
+			private static final long serialVersionUID = -5669582444002840211L;
+
+			@Override
+			public Button apply(MonitoredHostView source) {
+				Button button = new Button("Edit");
+				button.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+					
+					private static final long serialVersionUID = -7203535747497790891L;
+
+					@Override
+					public void onComponentEvent(ClickEvent<Button> event) {
+						// TODO Auto-generated method stub
+						UI.getCurrent().navigate(EditMonitoredHost.class, source.getId());
+					}
+				});
+				return button;
+			}
+		};
+	}
+
 	private Button createRandomHostButton() {
 		Button btn = new Button("Add Random host");
 		btn.addClickListener(createAddRandomHostClickListener());
@@ -171,7 +190,6 @@ public class StartPageImpl extends VerticalLayout implements StartPage {
 		return monitoredHostConverter.convert(source); 
 	}
 	
-	@Override
 	public void refresh() {
 		List<MonitoredHostView> hostList = convert(hostService.findAll());
 		grid.setItems(hostList);

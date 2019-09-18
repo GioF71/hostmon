@@ -1,4 +1,4 @@
-package com.giof71.monitoring.route.bean;
+package com.giof71.monitoring.bean;
 
 import lombok.Getter;
 import lombok.Setter;

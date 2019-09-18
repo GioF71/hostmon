@@ -1,6 +1,7 @@
 package com.giof71.monitoring.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.giof71.monitoring.model.MonitoredHost;
 
@@ -9,4 +10,6 @@ public interface HostService {
 	List<MonitoredHost> findAll();
 	long getHostCount();
 	void remove(Long id);
+	Optional<MonitoredHost> getHost(Long hostId);
+	void save(MonitoredHost monitoredHost);
 }
