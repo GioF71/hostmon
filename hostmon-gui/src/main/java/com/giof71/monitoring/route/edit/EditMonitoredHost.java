@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.giof71.monitoring.model.MonitoredHost;
 import com.giof71.monitoring.route.start.StartPage;
-import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.UI;
@@ -24,11 +23,6 @@ public class EditMonitoredHost extends AddEditMonitoredHost implements HasUrlPar
 	private static final long serialVersionUID = -2252010460912666187L;
 
 	private Long hostId;
-
-	@Override
-	protected void onAttach(AttachEvent attachEvent) {
-		//setErrorMessage("");
-	}
 
 	@Override
 	protected ComponentEventListener<ClickEvent<Button>> getExecuteActionClickListener() {

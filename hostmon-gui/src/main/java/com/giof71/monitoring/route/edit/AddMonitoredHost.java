@@ -37,8 +37,15 @@ public class AddMonitoredHost extends AddEditMonitoredHost {
 				MonitoredHost monitoredHost = new MonitoredHost();
 				monitoredHost.setFriendlyName(getFriendlyName().getValue());
 				monitoredHost.setAddress(getAddress().getValue());
-				getHostService().save(monitoredHost);
-				UI.getCurrent().navigate(StartPage.class);
+				try {
+					getHostService().save(monitoredHost);
+					UI.getCurrent().navigate(StartPage.class);
+				} catch (Exception exc) {
+					setErrorMessage(String.format("Cannot save %s due to %s [%s]", 
+						MonitoredHost.class.getSimpleName(),
+						Exception.class.getSimpleName(),
+						exc.getClass().getSimpleName()));
+				}
 			}
 		};
 	}

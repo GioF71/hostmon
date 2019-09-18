@@ -68,9 +68,11 @@ public abstract class AddEditMonitoredHost extends VerticalLayout {
 		VerticalLayout layout = new VerticalLayout();
 		
 		tfFriendlyName = new TextField("Friendly Name");
+		tfFriendlyName.setRequired(true);
 		layout.add(tfFriendlyName);
 	
 		tfAddress = new TextField("Address");
+		tfAddress.setRequired(true);
 		layout.add(tfAddress);
 		return layout;
 	}
