@@ -50,8 +50,13 @@ public class ConverterLibraryImpl implements ConverterLibrary {
 	}
 
 	@Override
-	public <From, To> To convert(From f, Class<From> fromType, Class<To> toType) {
-		return toType.cast(findConverter(fromType, toType).convert(f));
+	public <From, To> To convert(From from, Class<To> toType) {
+		return toType.cast(findConverter(from.getClass(), toType).convert(from));
+	}
+
+	@Override
+	public <From, To> To convert(From from, Class<From> fromType, Class<To> toType) {
+		return toType.cast(findConverter(fromType, toType).convert(from));
 	}
 
 	@Override
