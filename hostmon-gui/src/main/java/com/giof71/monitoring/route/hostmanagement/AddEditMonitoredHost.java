@@ -1,9 +1,12 @@
-package com.giof71.monitoring.route.edit;
+package com.giof71.monitoring.route.hostmanagement;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.giof71.monitoring.editing.EditorDefinition;
+import com.giof71.monitoring.model.MonitoredHost;
+import com.giof71.monitoring.route.HostManagement;
 import com.giof71.monitoring.route.start.StartPage;
 import com.giof71.monitoring.service.HostService;
 import com.vaadin.flow.component.ClickEvent;
@@ -15,6 +18,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 
+@EditorDefinition(modelClass = MonitoredHost.class, requiredQualifier = HostManagement.class)
 public abstract class AddEditMonitoredHost extends VerticalLayout {
 	
 	private static final long serialVersionUID = 36897351304630125L;

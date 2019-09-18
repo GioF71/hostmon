@@ -1,4 +1,4 @@
-package com.giof71.monitoring.route.edit;
+package com.giof71.monitoring.route.hostmanagement;
 
 import org.springframework.stereotype.Component;
 
