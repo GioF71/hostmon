@@ -18,9 +18,6 @@ import com.vaadin.flow.component.textfield.TextField;
 public abstract class AddEditMonitoredHost extends VerticalLayout {
 	
 	private static final long serialVersionUID = 36897351304630125L;
-
-	@Autowired
-	private StartPage startPage;
 	
 	@Autowired
 	private HostService hostService;
@@ -29,14 +26,12 @@ public abstract class AddEditMonitoredHost extends VerticalLayout {
 	private TextField tfFriendlyName;
 	private TextField tfAddress;
 	
+	private Label errorMessage;
+	
 	protected abstract ComponentEventListener<ClickEvent<Button>> getExecuteActionClickListener();
 	
 	protected HostService getHostService() {
 		return hostService;
-	}
-	
-	protected StartPage getStartPage() {
-		return startPage;
 	}
 	
 	protected TextField getFriendlyName() {
@@ -56,6 +51,20 @@ public abstract class AddEditMonitoredHost extends VerticalLayout {
 		editHost = new Label("Edit host");
 		add(editHost);
 		
+		VerticalLayout layout = createDataLayout();
+		add(layout);
+		
+		HorizontalLayout messageLayout = new HorizontalLayout();
+		errorMessage = new Label();
+		messageLayout.add(errorMessage);
+		messageLayout.setWidthFull();
+		add(messageLayout);
+		
+		HorizontalLayout bottomLayout = createBottomLayout();
+		add(bottomLayout);
+	}
+
+	private VerticalLayout createDataLayout() {
 		VerticalLayout layout = new VerticalLayout();
 		
 		tfFriendlyName = new TextField("Friendly Name");
@@ -63,14 +72,20 @@ public abstract class AddEditMonitoredHost extends VerticalLayout {
 	
 		tfAddress = new TextField("Address");
 		layout.add(tfAddress);
-		add(layout);
-		
+		return layout;
+	}
+
+	private HorizontalLayout createBottomLayout() {
 		HorizontalLayout bottomButtons = new HorizontalLayout();
 		Button updateButton = new Button("Execute", getExecuteActionClickListener());
 		bottomButtons.add(updateButton);
 		
 		Button cancelButton = new Button("Return to Host List", x -> UI.getCurrent().navigate(StartPage.class));
 		bottomButtons.add(cancelButton);
-		add(bottomButtons);
+		return bottomButtons;
+	}
+	
+	protected void setErrorMessage(String message) {
+		errorMessage.setText(message);
 	}
 }

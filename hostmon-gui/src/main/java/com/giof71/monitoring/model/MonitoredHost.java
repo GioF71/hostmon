@@ -2,6 +2,7 @@ package com.giof71.monitoring.model;
 
 import java.util.Calendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,12 +25,15 @@ public class MonitoredHost {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(nullable = false)
 	private String friendlyName;
 	
+	@Column(nullable = false)
 	private String address;
 	
+	@Column(nullable = false)
 	private Calendar creationTimestamp = Calendar.getInstance();
 	
+	@Column(nullable = false)
 	private Calendar updateTimestamp = creationTimestamp;
-	
 }

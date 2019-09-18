@@ -23,6 +23,7 @@ public class AddMonitoredHost extends AddEditMonitoredHost {
 	protected void onAttach(AttachEvent attachEvent) {
 		getFriendlyName().setValue("");
 		getAddress().setValue("");
+		setErrorMessage("");
 	}
 
 	@Override
@@ -37,7 +38,6 @@ public class AddMonitoredHost extends AddEditMonitoredHost {
 				monitoredHost.setFriendlyName(getFriendlyName().getValue());
 				monitoredHost.setAddress(getAddress().getValue());
 				getHostService().save(monitoredHost);
-				getStartPage().refresh();
 				UI.getCurrent().navigate(StartPage.class);
 			}
 		};

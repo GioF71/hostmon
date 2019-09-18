@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +18,7 @@ import com.giof71.monitoring.model.MonitoredHost;
 import com.giof71.monitoring.route.edit.AddMonitoredHost;
 import com.giof71.monitoring.route.edit.EditMonitoredHost;
 import com.giof71.monitoring.service.HostService;
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.UI;
@@ -44,7 +44,7 @@ public class StartPage extends VerticalLayout {
 	@Autowired
 	private HostService hostService;
 		
-	@Autowired 
+	@Autowired
 	private ConverterLibrary converterLibrary;
 	
 	private TypedConverter<MonitoredHost, MonitoredHostView> monitoredHostConverter;
@@ -68,7 +68,6 @@ public class StartPage extends VerticalLayout {
 		hostContainer.add(lblHostCountValue);
 		
 		hostContainer.add(createAddHostButton());
-		hostContainer.add(createRandomHostButton());
 		btnDelete = createDeleteSelectedHostButton();
 		hostContainer.add(btnDelete);
 		
@@ -87,7 +86,6 @@ public class StartPage extends VerticalLayout {
 			}
 		});
 		
-		//grid.addComponentColumn(createdEditLinkProvider());
 		grid.addComponentColumn(createdButtonEditProvider());
 		
 		grid.setSizeFull();
@@ -98,6 +96,11 @@ public class StartPage extends VerticalLayout {
 		refresh();
 	}
 	
+	@Override
+	protected void onAttach(AttachEvent attachEvent) {
+		refresh();
+	}
+
 	private ValueProvider<MonitoredHostView, Button> createdButtonEditProvider() {
 		return new ValueProvider<MonitoredHostView, Button>() {
 			
@@ -112,19 +115,12 @@ public class StartPage extends VerticalLayout {
 
 					@Override
 					public void onComponentEvent(ClickEvent<Button> event) {
-						// TODO Auto-generated method stub
 						UI.getCurrent().navigate(EditMonitoredHost.class, source.getId());
 					}
 				});
 				return button;
 			}
 		};
-	}
-
-	private Button createRandomHostButton() {
-		Button btn = new Button("Add Random host");
-		btn.addClickListener(createAddRandomHostClickListener());
-		return btn;
 	}
 
 	private Button createAddHostButton() {
@@ -151,21 +147,6 @@ public class StartPage extends VerticalLayout {
 				for (MonitoredHostView currentSelection : Optional.ofNullable(selected).orElse(Collections.emptySet())) {
 					hostService.remove(currentSelection.getId());
 				}
-				refresh();
-			}
-		};
-	}
-	
-	private ComponentEventListener<ClickEvent<Button>> createAddRandomHostClickListener() {
-		return new ComponentEventListener<ClickEvent<Button>>() {
-			
-			private static final long serialVersionUID = -1703701379087029570L;
-			
-			@Override
-			public void onComponentEvent(ClickEvent<Button> event) {
-				String friendlyName = UUID.randomUUID().toString();
-				String address = UUID.randomUUID().toString();
-				hostService.addHost(friendlyName, address);
 				refresh();
 			}
 		};
