@@ -54,7 +54,7 @@ public class HostServiceImpl implements HostService {
 
 	@Transactional
 	@Override
-	public void save(MonitoredHost monitoredHost) {
-		hostRepository.save(monitoredHost);
+	public MonitoredHost save(MonitoredHost monitoredHost) {
+		return hostRepository.save(monitoredHost);
 	}
 }

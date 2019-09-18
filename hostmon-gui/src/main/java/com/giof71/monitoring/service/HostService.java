@@ -11,5 +11,6 @@ public interface HostService {
 	long getHostCount();
 	void remove(Long id);
 	Optional<MonitoredHost> getHost(Long hostId);
-	void save(MonitoredHost monitoredHost);
+	MonitoredHost save(MonitoredHost monitoredHost);
 }
+

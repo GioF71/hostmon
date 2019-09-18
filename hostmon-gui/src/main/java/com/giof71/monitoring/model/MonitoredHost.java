@@ -15,7 +15,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = "friendlyName") })
+@Table(uniqueConstraints = { 
+	@UniqueConstraint(columnNames = "friendlyName"), 
+	@UniqueConstraint(columnNames = "address") })
 public class MonitoredHost {
 	
 	@Id

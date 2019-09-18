@@ -16,6 +16,7 @@ import com.giof71.monitoring.bean.MonitoredHostView;
 import com.giof71.monitoring.conversion.ConverterLibrary;
 import com.giof71.monitoring.conversion.TypedConverter;
 import com.giof71.monitoring.model.MonitoredHost;
+import com.giof71.monitoring.route.edit.AddMonitoredHost;
 import com.giof71.monitoring.route.edit.EditMonitoredHost;
 import com.giof71.monitoring.service.HostService;
 import com.vaadin.flow.component.ClickEvent;
@@ -31,7 +32,6 @@ import com.vaadin.flow.data.selection.SelectionEvent;
 import com.vaadin.flow.data.selection.SelectionListener;
 import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @Route(value = "start")
@@ -67,8 +67,8 @@ public class StartPage extends VerticalLayout {
 		lblHostCountValue = new Label();
 		hostContainer.add(lblHostCountValue);
 		
+		hostContainer.add(createAddHostButton());
 		hostContainer.add(createRandomHostButton());
-		
 		btnDelete = createDeleteSelectedHostButton();
 		hostContainer.add(btnDelete);
 		
@@ -87,8 +87,8 @@ public class StartPage extends VerticalLayout {
 			}
 		});
 		
-		grid.addComponentColumn(createdEditLinkProvider());
-		grid.addComponentColumn(createdButtonProvider());
+		//grid.addComponentColumn(createdEditLinkProvider());
+		grid.addComponentColumn(createdButtonEditProvider());
 		
 		grid.setSizeFull();
 		
@@ -98,20 +98,7 @@ public class StartPage extends VerticalLayout {
 		refresh();
 	}
 	
-	private ValueProvider<MonitoredHostView, RouterLink> createdEditLinkProvider() {
-		return new ValueProvider<MonitoredHostView, RouterLink>() {
-			
-			private static final long serialVersionUID = -5669582444002840211L;
-
-			@Override
-			public RouterLink apply(MonitoredHostView source) {
-				RouterLink link = new RouterLink("Edit", EditMonitoredHost.class, source.getId());
-				return link;
-			}
-		};
-	}
-	
-	private ValueProvider<MonitoredHostView, Button> createdButtonProvider() {
+	private ValueProvider<MonitoredHostView, Button> createdButtonEditProvider() {
 		return new ValueProvider<MonitoredHostView, Button>() {
 			
 			private static final long serialVersionUID = -5669582444002840211L;
@@ -137,6 +124,12 @@ public class StartPage extends VerticalLayout {
 	private Button createRandomHostButton() {
 		Button btn = new Button("Add Random host");
 		btn.addClickListener(createAddRandomHostClickListener());
+		return btn;
+	}
+
+	private Button createAddHostButton() {
+		Button btn = new Button("Add host");
+		btn.addClickListener(createAddHostClickListener());
 		return btn;
 	}
 	
@@ -174,6 +167,18 @@ public class StartPage extends VerticalLayout {
 				String address = UUID.randomUUID().toString();
 				hostService.addHost(friendlyName, address);
 				refresh();
+			}
+		};
+	}
+	
+	private ComponentEventListener<ClickEvent<Button>> createAddHostClickListener() {
+		return new ComponentEventListener<ClickEvent<Button>>() {
+			
+			private static final long serialVersionUID = -1703701379087029570L;
+			
+			@Override
+			public void onComponentEvent(ClickEvent<Button> event) {
+				UI.getCurrent().navigate(AddMonitoredHost.class);
 			}
 		};
 	}
