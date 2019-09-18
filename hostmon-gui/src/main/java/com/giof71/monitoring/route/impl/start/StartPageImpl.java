@@ -2,9 +2,7 @@ package com.giof71.monitoring.route.impl.start;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -23,7 +21,6 @@ import com.giof71.monitoring.route.impl.EditMonitoredHostImpl;
 import com.giof71.monitoring.service.HostService;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
@@ -51,7 +48,7 @@ public class StartPageImpl extends VerticalLayout implements StartPage {
 	
 	@Autowired
 	private HostService hostService;
-	
+		
 	@Autowired 
 	private ConverterLibrary converterLibrary;
 	
@@ -95,47 +92,14 @@ public class StartPageImpl extends VerticalLayout implements StartPage {
 			}
 		});
 		
-		//grid.addComponentColumn(t -> { return new Button("Edit");});
-		//grid.addComponentColumn(t -> { return new Button("Delete");});
-		
-		//grid.addComponentColumn(createdEditButtonProvider());
-		//grid.addComponentColumn(createdEditLinkProvider());
+		grid.addComponentColumn(createdEditLinkProvider());
 		
 		grid.setSizeFull();
 		
 		add(grid);
 		
-		//editMonitoredHostLink = new RouterLink("Edit", EditMonitoredHostImpl.class);
-		//add(editMonitoredHostLink);
-		
 		setSizeFull();
 		refresh();
-	}
-	
-	private ValueProvider<MonitoredHostView, Button> createdEditButtonProvider() {
-		return new ValueProvider<MonitoredHostView, Button>() {
-			
-			private static final long serialVersionUID = -5669582444002840211L;
-
-			@Override
-			public Button apply(MonitoredHostView source) {
-				Button b = new Button("Edit");
-				b.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
-					
-					private static final long serialVersionUID = 2681258700525404659L;
-
-					@Override
-					public void onComponentEvent(ClickEvent<Button> event) {
-						Map<String, String> paramMap = new HashMap<>();
-						paramMap.put("hostid", source.getId().toString());
-						System.out.println("Edit " + source.getId());
-						//UI.getCurrent().navigate("edithost", QueryParameters.simple(paramMap));
-						//UI.getCurrent().navigate(EditMonitoredHostImpl.class, source.getId());
-					}
-				});
-				return b;
-			}
-		};
 	}
 	
 	private ValueProvider<MonitoredHostView, RouterLink> createdEditLinkProvider() {
@@ -145,25 +109,8 @@ public class StartPageImpl extends VerticalLayout implements StartPage {
 
 			@Override
 			public RouterLink apply(MonitoredHostView source) {
-				return null;
-//				RouterLink link = new RouterLink("Edit", EditMonitoredHostImpl.class, source.getId());
-//				return link;
-				
-//				RouterLink b = new Button("Edit");
-//				b.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
-//					
-//					private static final long serialVersionUID = 2681258700525404659L;
-//
-//					@Override
-//					public void onComponentEvent(ClickEvent<Button> event) {
-//						Map<String, String> paramMap = new HashMap<>();
-//						paramMap.put("hostid", source.getId().toString());
-//						System.out.println("Edit " + source.getId());
-//						//UI.getCurrent().navigate("edithost", QueryParameters.simple(paramMap));
-//						UI.getCurrent().navigate(EditMonitoredHostImpl.class, source.getId());
-//					}
-//				});
-//				return b;
+				RouterLink link = new RouterLink("Edit", EditMonitoredHostImpl.class, source.getId());
+				return link;
 			}
 		};
 	}

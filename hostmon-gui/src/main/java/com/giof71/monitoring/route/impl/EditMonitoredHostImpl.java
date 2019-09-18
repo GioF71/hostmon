@@ -2,16 +2,20 @@ package com.giof71.monitoring.route.impl;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.stereotype.Component;
+
 import com.giof71.monitoring.model.MonitoredHost;
 import com.giof71.monitoring.route.EditMonitoredHost;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.annotation.UIScope;
 
-//@Route(value = "edithost")
-//@Component
-//@UIScope
+@Route(value = "edithost")
+@Component
+@UIScope
 public class EditMonitoredHostImpl extends VerticalLayout implements EditMonitoredHost, HasUrlParameter<Long> {
 	
 	private static final long serialVersionUID = 8130239827721092587L;
