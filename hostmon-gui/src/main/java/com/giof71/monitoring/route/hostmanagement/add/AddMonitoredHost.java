@@ -18,7 +18,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @Route(value = "addhost")
 @Component
 @UIScope
-@EditorAction(action = Action.ADD)
+@EditorAction(action = Action.ADD, buttonText = "Add New Host")
 public class AddMonitoredHost extends MonitoredHostEditor {
 
 	private static final long serialVersionUID = -7801912693497319347L;
@@ -27,7 +27,7 @@ public class AddMonitoredHost extends MonitoredHostEditor {
 	protected void onAttach(AttachEvent attachEvent) {
 		getFriendlyName().setValue("");
 		getAddress().setValue("");
-		resetErrorMessage();
+		resetErrors();
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class AddMonitoredHost extends MonitoredHostEditor {
 					getHostService().save(monitoredHost);
 					UI.getCurrent().navigate(StartPage.class);
 				} catch (Exception exc) {
-					setErrorMessage(String.format("Cannot save %s due to %s [%s]", 
+					addErrorMessage(String.format("Cannot save %s due to %s [%s]", 
 						MonitoredHost.class.getSimpleName(),
 						Exception.class.getSimpleName(),
 						exc.getClass().getSimpleName()));

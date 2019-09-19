@@ -21,7 +21,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @Route(value = "edithost")
 @Component
 @UIScope
-@EditorAction(action = Action.EDIT)
+@EditorAction(action = Action.EDIT, buttonText = "Update Host")
 public class EditMonitoredHost extends MonitoredHostEditor implements HasUrlParameter<Long> {
 
 	private static final long serialVersionUID = -2252010460912666187L;
@@ -45,7 +45,7 @@ public class EditMonitoredHost extends MonitoredHostEditor implements HasUrlPara
 						getHostService().save(monitoredHost);
 						UI.getCurrent().navigate(StartPage.class);
 					} catch (Exception exc) {
-						setErrorMessage(String.format("Cannot save %s due to %s [%s]", 
+						addErrorMessage(String.format("Cannot save %s due to %s [%s]", 
 							MonitoredHost.class.getSimpleName(),
 							Exception.class.getSimpleName(),
 							exc.getClass().getSimpleName()));
@@ -55,7 +55,7 @@ public class EditMonitoredHost extends MonitoredHostEditor implements HasUrlPara
 					String errorMessage = String.format("Cannot find a %s with id = %d", 
 						MonitoredHost.class.getSimpleName(), 
 						hostId);
-					setErrorMessage(errorMessage);
+					addErrorMessage(errorMessage);
 				}
 			}
 		};
@@ -68,8 +68,7 @@ public class EditMonitoredHost extends MonitoredHostEditor implements HasUrlPara
 	}
 
 	private void refresh() {
-		resetErrorMessage();
-		//getEditHostLabel().setText(String.format("Editing %s %d", MonitoredHost.class.getSimpleName(), hostId));
+		resetErrors();
 		MonitoredHost monitoredHost = getHostService().getHost(hostId).orElse(null);
 		if (monitoredHost != null) {
 			getFriendlyName().setValue(monitoredHost.getFriendlyName());
@@ -78,7 +77,7 @@ public class EditMonitoredHost extends MonitoredHostEditor implements HasUrlPara
 			String errorMessage = String.format("Cannot find a %s with id = %d", 
 				MonitoredHost.class.getSimpleName(), 
 				hostId);
-			setErrorMessage(errorMessage);
+			addErrorMessage(errorMessage);
 		}
 	}
 }

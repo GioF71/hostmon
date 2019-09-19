@@ -124,7 +124,7 @@ public class StartPage extends VerticalLayout {
 	}
 
 	private Button createAddHostButton() {
-		Button btn = new Button("Add host");
+		Button btn = new Button("Add Host");
 		btn.addClickListener(createAddHostClickListener());
 		return btn;
 	}

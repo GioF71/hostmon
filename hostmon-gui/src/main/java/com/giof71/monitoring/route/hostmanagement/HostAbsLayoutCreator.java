@@ -35,12 +35,12 @@ public abstract class HostAbsLayoutCreator extends SimpleEditingLayoutCreator {
 		TextField tfFriendlyName = new TextField("Friendly Name");
 		tfFriendlyName.setRequired(true);
 		layout.add(tfFriendlyName);
-		builder.addComponent(HostManagementComponentName.FRIENDLY_NAME.name(), tfFriendlyName);
+		builder.addComponent("FRIENDLY_NAME", tfFriendlyName);
 	
 		TextField tfAddress = new TextField("Address");
 		tfAddress.setRequired(true);
 		layout.add(tfAddress);
-		builder.addComponent(HostManagementComponentName.ADDRESS.name(), tfAddress);
+		builder.addComponent("ADDRESS", tfAddress);
 		
 		return layout;
 	}

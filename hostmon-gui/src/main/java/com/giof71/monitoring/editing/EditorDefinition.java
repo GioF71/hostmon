@@ -13,5 +13,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @Qualifier
 public @interface EditorDefinition {
 	Class<?> modelClass();
+	String entityDisplayName();
 	Class<? extends Annotation> requiredQualifier();
 }
