@@ -1,4 +1,4 @@
-package com.giof71.monitoring.route;
+package com.giof71.monitoring.editing;
 
 public enum Action {
 	ADD("Add"),

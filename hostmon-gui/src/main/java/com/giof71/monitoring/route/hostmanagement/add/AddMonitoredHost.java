@@ -2,9 +2,9 @@ package com.giof71.monitoring.route.hostmanagement.add;
 
 import org.springframework.stereotype.Component;
 
+import com.giof71.monitoring.editing.Action;
 import com.giof71.monitoring.editing.EditorAction;
 import com.giof71.monitoring.model.MonitoredHost;
-import com.giof71.monitoring.route.Action;
 import com.giof71.monitoring.route.hostmanagement.MonitoredHostEditor;
 import com.giof71.monitoring.route.start.StartPage;
 import com.vaadin.flow.component.AttachEvent;

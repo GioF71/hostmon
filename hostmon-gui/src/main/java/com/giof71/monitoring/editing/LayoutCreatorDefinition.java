@@ -8,8 +8,6 @@ import java.lang.annotation.Target;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.giof71.monitoring.route.Action;
-
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier

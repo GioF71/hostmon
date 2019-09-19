@@ -10,10 +10,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.giof71.monitoring.editing.Action;
 import com.giof71.monitoring.editing.EditingLayoutCreator;
 import com.giof71.monitoring.editing.EditingLayoutCreatorLibrary;
 import com.giof71.monitoring.editing.LayoutCreatorDefinition;
-import com.giof71.monitoring.route.Action;
 import com.giof71.monitoring.util.AnnotationScanner;
 
 @Component
