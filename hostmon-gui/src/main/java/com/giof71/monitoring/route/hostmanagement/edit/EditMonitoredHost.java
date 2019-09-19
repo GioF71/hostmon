@@ -1,10 +1,13 @@
-package com.giof71.monitoring.route.hostmanagement;
+package com.giof71.monitoring.route.hostmanagement.edit;
 
 import java.util.Calendar;
 
 import org.springframework.stereotype.Component;
 
+import com.giof71.monitoring.editing.EditorAction;
 import com.giof71.monitoring.model.MonitoredHost;
+import com.giof71.monitoring.route.Action;
+import com.giof71.monitoring.route.hostmanagement.MonitoredHostEditor;
 import com.giof71.monitoring.route.start.StartPage;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -18,7 +21,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @Route(value = "edithost")
 @Component
 @UIScope
-public class EditMonitoredHost extends AddEditMonitoredHost implements HasUrlParameter<Long> {
+@EditorAction(action = Action.EDIT)
+public class EditMonitoredHost extends MonitoredHostEditor implements HasUrlParameter<Long> {
 
 	private static final long serialVersionUID = -2252010460912666187L;
 
@@ -48,7 +52,9 @@ public class EditMonitoredHost extends AddEditMonitoredHost implements HasUrlPar
 					}
 				} else {
 					// so?
-					String errorMessage = String.format("Cannot find a %s with id = %d", MonitoredHost.class.getSimpleName(), hostId);
+					String errorMessage = String.format("Cannot find a %s with id = %d", 
+						MonitoredHost.class.getSimpleName(), 
+						hostId);
 					setErrorMessage(errorMessage);
 				}
 			}
@@ -63,13 +69,15 @@ public class EditMonitoredHost extends AddEditMonitoredHost implements HasUrlPar
 
 	private void refresh() {
 		setErrorMessage("");
-		getEditHostLabel().setText(String.format("Editing %s %d", MonitoredHost.class.getSimpleName(), hostId));
+		//getEditHostLabel().setText(String.format("Editing %s %d", MonitoredHost.class.getSimpleName(), hostId));
 		MonitoredHost monitoredHost = getHostService().getHost(hostId).orElse(null);
 		if (monitoredHost != null) {
 			getFriendlyName().setValue(monitoredHost.getFriendlyName());
 			getAddress().setValue(monitoredHost.getAddress());
 		} else {
-			String errorMessage = String.format("Cannot find a %s with id = %d", MonitoredHost.class.getSimpleName(), hostId);
+			String errorMessage = String.format("Cannot find a %s with id = %d", 
+				MonitoredHost.class.getSimpleName(), 
+				hostId);
 			setErrorMessage(errorMessage);
 		}
 	}
