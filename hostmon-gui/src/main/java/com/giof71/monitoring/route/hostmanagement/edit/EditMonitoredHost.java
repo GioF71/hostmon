@@ -68,7 +68,7 @@ public class EditMonitoredHost extends MonitoredHostEditor implements HasUrlPara
 	}
 
 	private void refresh() {
-		setErrorMessage("");
+		resetErrorMessage();
 		//getEditHostLabel().setText(String.format("Editing %s %d", MonitoredHost.class.getSimpleName(), hostId));
 		MonitoredHost monitoredHost = getHostService().getHost(hostId).orElse(null);
 		if (monitoredHost != null) {

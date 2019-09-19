@@ -22,10 +22,10 @@ public abstract class MonitoredHostEditor extends SimpleEditor {
 	}
 	
 	protected final TextField getFriendlyName() {
-		return getEditingLayout().getFieldComponent(HostManagementComponentName.FRIENDLY_NAME.name(), TextField.class);
+		return getEditingLayout().getComponent(HostManagementComponentName.FRIENDLY_NAME.name(), TextField.class);
 	}
 	
 	protected final TextField getAddress() {
-		return getEditingLayout().getFieldComponent(HostManagementComponentName.ADDRESS.name(), TextField.class);
+		return getEditingLayout().getComponent(HostManagementComponentName.ADDRESS.name(), TextField.class);
 	}
 }

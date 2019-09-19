@@ -27,7 +27,7 @@ public class AddMonitoredHost extends MonitoredHostEditor {
 	protected void onAttach(AttachEvent attachEvent) {
 		getFriendlyName().setValue("");
 		getAddress().setValue("");
-		setErrorMessage("");
+		resetErrorMessage();
 	}
 
 	@Override

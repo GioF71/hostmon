@@ -8,23 +8,23 @@ import com.vaadin.flow.component.Component;
 
 public class SimpleEditingLayout implements EditingLayout {
 	
-	private final Component createdComponent;
+	private final Component layoutComponent;
 	private final Map<String, Component> componentMap = new HashMap<>();
 	
 	private SimpleEditingLayout(Builder builder) {
-		this.createdComponent = builder.createdComponent;
+		this.layoutComponent = builder.layoutComponent;
 		for (Map.Entry<String, Component> current : builder.componentMap.entrySet()) {
 			this.componentMap.put(current.getKey(), current.getValue());
 		}
 	}
 
 	@Override
-	public Component getCreatedComponent() {
-		return createdComponent;
+	public Component getLayoutComponent() {
+		return layoutComponent;
 	}
 
 	@Override
-	public <T extends Component> T getFieldComponent(String fieldName, Class<T> componentType) {
+	public <T extends Component> T getComponent(String fieldName, Class<T> componentType) {
 		return componentType.cast(componentMap.get(fieldName));
 	}
 	
@@ -34,7 +34,7 @@ public class SimpleEditingLayout implements EditingLayout {
 
 	public static class Builder {
 		
-		private Component createdComponent;
+		private Component layoutComponent;
 		private final Map<String, Component> componentMap = new HashMap<>();
 		
 		public Builder addComponent(String name, Component component) {
@@ -42,8 +42,8 @@ public class SimpleEditingLayout implements EditingLayout {
 			return this;
 		}
 		
-		public Builder createdComponent(Component createdComponent) {
-			this.createdComponent = createdComponent;
+		public Builder layoutComponent(Component value) {
+			this.layoutComponent = value;
 			return this;
 		}
 		

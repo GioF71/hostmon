@@ -46,6 +46,18 @@ public abstract class SimpleEditor extends VerticalLayout implements Editor {
 	
 	protected abstract ComponentEventListener<ClickEvent<Button>> getExecuteActionClickListener();
 	
+	protected ComponentEventListener<ClickEvent<Button>> getCancelActionClickListener() {
+		return new ComponentEventListener<ClickEvent<Button>>() {
+			
+			private static final long serialVersionUID = -8504613097374652555L;
+
+			@Override
+			public void onComponentEvent(ClickEvent<Button> event) {
+				UI.getCurrent().navigate(StartPage.class);
+			}
+		};
+	}
+	
 	protected void doCreateLayout() {
 		Optional<EditorDefinition> optEditorDefinition = getEditorDefinition();
 		Optional<EditorAction> optEditorAction = getEditorAction();
@@ -54,7 +66,7 @@ public abstract class SimpleEditor extends VerticalLayout implements Editor {
 			System.out.println(String.format("Selected %s = %s", EditingLayoutCreator.class.getSimpleName(), layoutCreator.getClass().getSimpleName()));
 			EditingLayout editingLayout = layoutCreator.create();
 			this.editingLayout = editingLayout;
-			add(editingLayout.getCreatedComponent());
+			add(editingLayout.getLayoutComponent());
 		}
 	}
 	
@@ -81,13 +93,17 @@ public abstract class SimpleEditor extends VerticalLayout implements Editor {
 		Button updateButton = new Button("Execute", getExecuteActionClickListener());
 		bottomButtons.add(updateButton);
 		
-		Button cancelButton = new Button("Return to Host List", x -> UI.getCurrent().navigate(StartPage.class));
+		Button cancelButton = new Button("Return to Host List", getCancelActionClickListener());
 		bottomButtons.add(cancelButton);
 		return bottomButtons;
 	}
 	
 	protected void setErrorMessage(String message) {
 		errorMessage.setText(message);
+	}
+	
+	protected void resetErrorMessage() {
+		errorMessage.setText("");
 	}
 }
 

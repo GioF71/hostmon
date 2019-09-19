@@ -26,7 +26,7 @@ public abstract class HostAbsLayoutCreator extends SimpleEditingLayoutCreator {
 		messageLayout.setWidthFull();
 		mainEditingLayout.add(messageLayout);
 		
-		return builder.createdComponent(mainEditingLayout).build();
+		return builder.layoutComponent(mainEditingLayout).build();
 	}
 
 	private VerticalLayout createDataLayout(SimpleEditingLayout.Builder builder) {
@@ -44,5 +44,4 @@ public abstract class HostAbsLayoutCreator extends SimpleEditingLayoutCreator {
 		
 		return layout;
 	}
-
 }
