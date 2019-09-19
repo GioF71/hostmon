@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.giof71.monitoring.bean.MonitoredHostView;
 import com.giof71.monitoring.conversion.ConverterLibrary;
 import com.giof71.monitoring.conversion.TypedConverter;
+import com.giof71.monitoring.editing.Action;
 import com.giof71.monitoring.model.MonitoredHost;
 import com.giof71.monitoring.route.hostmanagement.add.AddMonitoredHost;
 import com.giof71.monitoring.route.hostmanagement.edit.EditMonitoredHost;
@@ -23,6 +24,9 @@ import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog.CancelEvent;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog.ConfirmEvent;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.component.html.Label;
@@ -38,6 +42,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 @Component
 @UIScope
 public class StartPage extends VerticalLayout {
+
+	private static final String DELETE_BUTTON_BASE_TEXT = Action.DELETE.getDisplayText();
 
 	private static final long serialVersionUID = 9092663229633895398L;
 	
@@ -82,11 +88,19 @@ public class StartPage extends VerticalLayout {
 
 			@Override
 			public void selectionChange(SelectionEvent<Grid<MonitoredHostView>, MonitoredHostView> event) {
-				btnDelete.setEnabled(event.getAllSelectedItems().size() > 0);
+				int selectedCount = event.getAllSelectedItems().size();
+				if (selectedCount > 0) {
+					btnDelete.setText(String.format("%s (%d selected)", DELETE_BUTTON_BASE_TEXT, selectedCount));
+					
+				} else {
+					btnDelete.setText(DELETE_BUTTON_BASE_TEXT);
+				}
+				btnDelete.setEnabled(selectedCount > 0);
 			}
 		});
 		
-		grid.addComponentColumn(createdButtonEditProvider());
+		grid.addComponentColumn(createdEditButtonProvider());
+		grid.addComponentColumn(createdDeleteButtonProvider());
 		
 		grid.setSizeFull();
 		
@@ -101,14 +115,14 @@ public class StartPage extends VerticalLayout {
 		refresh();
 	}
 
-	private ValueProvider<MonitoredHostView, Button> createdButtonEditProvider() {
+	private ValueProvider<MonitoredHostView, Button> createdEditButtonProvider() {
 		return new ValueProvider<MonitoredHostView, Button>() {
 			
 			private static final long serialVersionUID = -5669582444002840211L;
 
 			@Override
 			public Button apply(MonitoredHostView source) {
-				Button button = new Button("Edit");
+				Button button = new Button(Action.EDIT.getDisplayText());
 				button.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
 					
 					private static final long serialVersionUID = -7203535747497790891L;
@@ -123,6 +137,58 @@ public class StartPage extends VerticalLayout {
 		};
 	}
 
+	private ValueProvider<MonitoredHostView, Button> createdDeleteButtonProvider() {
+		return new ValueProvider<MonitoredHostView, Button>() {
+			
+			private static final long serialVersionUID = -5669582444002840211L;
+
+			@Override
+			public Button apply(MonitoredHostView source) {
+				Button button = new Button(Action.DELETE.getDisplayText());
+				button.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+					
+					private static final long serialVersionUID = -7203535747497790891L;
+
+					@Override
+					public void onComponentEvent(ClickEvent<Button> event) {
+						ConfirmDialog confirmDialog = new ConfirmDialog(
+							"Confirm Operation", 
+							"Do you want to delete the selected Host?",
+							"Delete", onConfirmDelete(source.getId()), 
+							"Cancel", onCancelDelete(source.getId()));
+						confirmDialog.open();
+					}
+				});
+				return button;
+			}
+		};
+	}
+	
+	private final ComponentEventListener<ConfirmEvent> onConfirmDelete(Long id) {
+		return new ComponentEventListener<ConfirmDialog.ConfirmEvent>() {
+
+			private static final long serialVersionUID = 8086418224548359784L;
+
+			@Override
+			public void onComponentEvent(ConfirmEvent event) {
+				hostService.remove(id);
+				refresh();
+			}
+		};
+	}
+
+	private final ComponentEventListener<CancelEvent> onCancelDelete(Long id) {
+		return new ComponentEventListener<ConfirmDialog.CancelEvent>() {
+
+			private static final long serialVersionUID = 8086418224548359784L;
+
+			@Override
+			public void onComponentEvent(CancelEvent event) {
+				//System.out.println("Cancelled, nothing was deleted");
+			}
+		};
+	}
+
 	private Button createAddHostButton() {
 		Button btn = new Button("Add Host");
 		btn.addClickListener(createAddHostClickListener());
@@ -130,7 +196,7 @@ public class StartPage extends VerticalLayout {
 	}
 	
 	private Button createDeleteSelectedHostButton() {
-		Button btn = new Button("Delete");
+		Button btn = new Button(DELETE_BUTTON_BASE_TEXT);
 		btn.setEnabled(false);
 		btn.addClickListener(createDeleteSelectedHostClickListener());
 		return btn;

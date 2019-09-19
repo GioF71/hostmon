@@ -15,6 +15,11 @@
 	<name>hostmon-gui</name>
 	<description>hostmon-gui</description>
 
+	<repository>
+		<id>vaadin-addons</id>
+		<url>https://maven.vaadin.com/vaadin-addons</url>
+	</repository>
+
 	<properties>
 		<java.version>1.8</java.version>
 		<vaadin.version>14.0.4</vaadin.version>
@@ -48,6 +53,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-confirm-dialog-flow</artifactId>
 		</dependency>
 	</dependencies>
 
