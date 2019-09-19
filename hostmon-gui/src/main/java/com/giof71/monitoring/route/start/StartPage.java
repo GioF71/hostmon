@@ -153,7 +153,7 @@ public class StartPage extends VerticalLayout {
 					public void onComponentEvent(ClickEvent<Button> event) {
 						ConfirmDialog confirmDialog = new ConfirmDialog(
 							"Confirm Operation", 
-							"Do you want to delete the selected Host?",
+							String.format("Do you want to delete the host %s?", source.getFriendlyName()),
 							"Delete", onConfirmDelete(source.getId()), 
 							"Cancel", onCancelDelete(source.getId()));
 						confirmDialog.open();
