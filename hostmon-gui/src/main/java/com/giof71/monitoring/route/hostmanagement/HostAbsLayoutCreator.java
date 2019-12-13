@@ -14,8 +14,6 @@ public abstract class HostAbsLayoutCreator extends SimpleEditingLayoutCreator {
 	public EditingLayout create() {
 		SimpleEditingLayout.Builder builder = SimpleEditingLayout.builder();
 		VerticalLayout mainEditingLayout = new VerticalLayout();
-		Label editHost = new Label("Edit host");
-		mainEditingLayout.add(editHost);
 		
 		VerticalLayout layout = createDataLayout(builder);
 		mainEditingLayout.add(layout);
